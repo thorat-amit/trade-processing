@@ -1,0 +1,46 @@
+project_id  = "my-gcp-project"
+region      = "us-central1"
+zone        = "us-central1-a"
+env         = "dev"
+alert_email = "data-team@example.com"
+
+# Disable Composer while iterating locally to save cost; set true for full deploy.
+enable_composer = true
+
+# OPTIONAL: SendGrid API key to enable Airflow-native email_on_failure alerts.
+# Leave empty ("") to rely on the Cloud Monitoring email alerts, which are
+# created by Terraform and fully satisfy the "email on pipeline failure"
+# requirement with no extra setup.
+sendgrid_api_key = ""
+
+# Snowflake credentials as a JSON string. NEVER commit real values.
+# Use password OR private_key (key-pair auth STRONGLY preferred for service users).
+#
+# Password auth:
+snowflake_credentials_json = <<JSON
+{
+  "account": "ab12345.us-east-1",
+  "user": "TRADE_ETL_SVC",
+  "password": "REPLACE_ME",
+  "role": "TRADE_ETL_ROLE",
+  "warehouse": "TRADE_WH",
+  "database": "TRADE_DB",
+  "schema": "PUBLIC"
+}
+JSON
+
+# Key-pair auth (recommended): paste the FULL PEM of the unencrypted PKCS8 key as
+# the "private_key" field (newlines preserved). The pipeline converts it to the
+# DER/PKCS8 bytes the Snowflake connector requires. Add "private_key_passphrase"
+# only if the key is encrypted. Example shape:
+# snowflake_credentials_json = <<JSON
+# {
+#   "account": "ab12345.us-east-1",
+#   "user": "TRADE_ETL_SVC",
+#   "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQ...\n-----END PRIVATE KEY-----\n",
+#   "role": "TRADE_ETL_ROLE",
+#   "warehouse": "TRADE_WH",
+#   "database": "TRADE_DB",
+#   "schema": "PUBLIC"
+# }
+# JSON

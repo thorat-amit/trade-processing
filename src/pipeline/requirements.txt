@@ -1,0 +1,6 @@
+apache-beam[gcp]==2.60.0
+snowflake-connector-python[pandas]==3.12.3
+google-cloud-secret-manager==2.20.2
+pandas>=1.5,<2.2
+pyarrow>=10,<17
+cryptography>=41,<44

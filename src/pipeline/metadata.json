@@ -1,0 +1,30 @@
+{
+  "name": "Trade ETL Streaming Pipeline",
+  "description": "Pub/Sub -> Beam validation -> Snowflake (valid + rejected)",
+  "parameters": [
+    {
+      "name": "input_subscription",
+      "label": "Pub/Sub input subscription",
+      "helpText": "projects/<project>/subscriptions/<subscription>",
+      "regexes": ["^projects/[^/]+/subscriptions/[^/]+$"]
+    },
+    {
+      "name": "snowflake_secret",
+      "label": "Snowflake credentials Secret Manager resource",
+      "helpText": "projects/<project>/secrets/<name>/versions/latest",
+      "regexes": ["^projects/[^/]+/secrets/[^/]+/versions/.+$"]
+    },
+    {
+      "name": "batch_max_size",
+      "label": "Max rows per Snowflake write batch",
+      "helpText": "Max number of trades buffered before a Snowflake write (default 500).",
+      "isOptional": true
+    },
+    {
+      "name": "batch_max_seconds",
+      "label": "Max seconds to buffer a write batch",
+      "helpText": "Max seconds to buffer trades before flushing a Snowflake write (default 15).",
+      "isOptional": true
+    }
+  ]
+}
